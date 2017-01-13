@@ -55,14 +55,12 @@ public class DelayTeleport implements Listener {
         }
         final Player player = e.getPlayer();
         if (e.getTo() != null && e.getFrom() != null && !e.getTo().equals(e.getFrom())) {
-            if (e.getTo().getWorld().equals(api.getIslandWorld()) || e.getTo().getWorld().equals(api.getNetherWorld())
-                    || e.getFrom().getWorld().equals(api.getIslandWorld()) || e.getFrom().getWorld().equals(api.getNetherWorld())) {
+            if (e.getFrom().getWorld().equals(api.getIslandWorld()) || e.getFrom().getWorld().equals(api.getNetherWorld())) {
                 e.setCancelled(true);
                 delayedPlayers.add(e.getPlayer().getUniqueId());
                 player.sendMessage(ChatColor.GOLD + "Teleporting in " + delayDuration + " seconds. Do not move!");
                 plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
 
-                    @Override
                     public void run() {
                         if (delayedPlayers.contains(player.getUniqueId())) {
                             if (player.getLocation().toVector().equals(e.getFrom().toVector())) {

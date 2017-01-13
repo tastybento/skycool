@@ -18,7 +18,6 @@ public class DelayedPlayer {
 	player.sendMessage(ChatColor.GOLD + "Teleporting in " + timeOut + " seconds. Do not move!");
 	plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
 
-	    @Override
 	    public void run() {
 		if (player.getLocation().toVector().equals(from.toVector())) {
 		    player.teleport(to);

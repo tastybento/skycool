@@ -1,2 +1,3 @@
-
+# Delay in seconds to wait until teleporting players in the ASkyBlock world
+delay: 5
    
