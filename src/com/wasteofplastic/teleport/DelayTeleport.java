@@ -55,7 +55,26 @@ public class DelayTeleport implements Listener {
         }
         final Player player = e.getPlayer();
         if (e.getTo() != null && e.getFrom() != null && !e.getTo().equals(e.getFrom())) {
-            if (e.getFrom().getWorld().equals(api.getIslandWorld()) || e.getFrom().getWorld().equals(api.getNetherWorld())) {
+            // Check settings
+            boolean delayTeleport = false;
+            boolean fromASkyBlock = false;
+            boolean toASkyBlock = false;
+            if (e.getFrom().getWorld() == api.getIslandWorld() || e.getFrom().getWorld() == api.getNetherWorld()) {
+                fromASkyBlock = true;
+            }
+            if (e.getTo().getWorld() == api.getIslandWorld() || e.getTo().getWorld() == api.getNetherWorld()) {
+                toASkyBlock = true;
+            }
+            if (plugin.getConfig().getBoolean("teleportin", false) && !fromASkyBlock && toASkyBlock) {     
+                delayTeleport = true;
+            }
+            if (plugin.getConfig().getBoolean("teleportout", false) && fromASkyBlock && !toASkyBlock) {     
+                delayTeleport = true;
+            }
+            if (plugin.getConfig().getBoolean("teleportinternal", false) && fromASkyBlock && toASkyBlock) {     
+                delayTeleport = true;
+            }
+            if (delayTeleport) {
                 e.setCancelled(true);
                 delayedPlayers.add(e.getPlayer().getUniqueId());
                 player.sendMessage(ChatColor.GOLD + "Teleporting in " + delayDuration + " seconds. Do not move!");

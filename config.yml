@@ -1,3 +1,10 @@
 # Delay in seconds to wait until teleporting players in the ASkyBlock world
 delay: 5
+# Add cooldown to players teleporting into ASkyBlock worlds?
+teleportin: true
+# Add cooldown to players teleporting out of ASkyBlock worlds?
+teleportout: false
+# Add cooldown to players teleporting within ASkyBlock worlds?
+teleportinternal: false
+
    

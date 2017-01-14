@@ -1,6 +1,6 @@
 name: SkyCool
 main: com.wasteofplastic.skycool.SkyCool
-version: 0.0.1
+version: 1.0
 description: A teleport cooldown for ASkyBlock
 author: tastybento
 depends: [ASkyBlock]
