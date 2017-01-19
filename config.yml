@@ -6,5 +6,6 @@ teleportin: true
 teleportout: false
 # Add cooldown to players teleporting within ASkyBlock worlds?
 teleportinternal: false
-
-   
+# Teleport message
+message: "Teleporting in [seconds] seconds. Do not move!"
+error: "You moved, teleport cancelled!"

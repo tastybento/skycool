@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import net.md_5.bungee.api.ChatColor;
-
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
@@ -32,10 +30,13 @@ public class DelayTeleport implements Listener {
         delayedPlayers = new ArrayList<UUID>();
     }
 
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
     public void onPlayerTeleport(final PlayerTeleportEvent e) {
         if (DEBUG) {
             plugin.getLogger().info(e.getEventName());
+        }
+        if (e.getPlayer().hasPermission("skycool.bypass")) {
+            return;
         }
         if (delayedPlayers.contains(e.getPlayer().getUniqueId())) {
             return;
@@ -77,7 +78,8 @@ public class DelayTeleport implements Listener {
             if (delayTeleport) {
                 e.setCancelled(true);
                 delayedPlayers.add(e.getPlayer().getUniqueId());
-                player.sendMessage(ChatColor.GOLD + "Teleporting in " + delayDuration + " seconds. Do not move!");
+                String message = plugin.getConfig().getString("message","Teleporting in [seconds] seconds. Do not move!");
+                player.sendMessage(ChatColor.GOLD + message.replace("[seconds]", String.valueOf(delayDuration)));
                 plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
 
                     public void run() {
@@ -85,21 +87,12 @@ public class DelayTeleport implements Listener {
                             if (player.getLocation().toVector().equals(e.getFrom().toVector())) {
                                 player.teleport(e.getTo());
                             } else {
-                                player.sendMessage(ChatColor.RED + "You moved, teleport cancelled!");
+                                player.sendMessage(ChatColor.RED + plugin.getConfig().getString("error","You moved, teleport cancelled!"));
                             }
                             removePlayer(player.getUniqueId());
                         }
                     }}, delayDuration * 20L);
             }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
-    public void onPlayerMove(final PlayerMoveEvent e) {
-        if (delayedPlayers.contains(e.getPlayer().getUniqueId())) {
-            e.getPlayer().sendMessage(ChatColor.RED + "You moved, teleport cancelled!");
-            removePlayer(e.getPlayer().getUniqueId());
-            return;
         }
     }
 

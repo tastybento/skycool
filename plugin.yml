@@ -4,3 +4,7 @@ version: 1.0
 description: A teleport cooldown for ASkyBlock
 author: tastybento
 depends: [ASkyBlock]
+permissions:    
+  skycool.bypass:
+    description: Allow teleporting without delay
+    default: false
